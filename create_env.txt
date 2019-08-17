@@ -156,7 +156,7 @@
 
    - 가상 환경에 notebook 실행 환경 설치
 
-     conda activate pysparkdev
+     conda activate pysparkdev -->사용환경 변경
 
      pip install numpy
      pip install pandas
