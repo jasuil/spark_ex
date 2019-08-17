@@ -1,0 +1,218 @@
+1. 스파크 운영을 위한 기본 설치 및 설정 (root 계정으로 실행)
+
+   - 네트워크 설정 
+
+       /etc/sysconfig/network-scripts/ifcfg-enp0s3,
+       /etc/sysconfig/network-scripts/ifcfg-enp0s8
+
+
+   - 개발자 패키지 설치 ( wget, "Development Tools" )
+
+     yum install -y wget
+
+     yum groupinstall -y "Development Tools"
+     
+
+   - 패키지 업데이트
+
+     yum update
+
+
+   - jdk 설치
+
+     윈도우 PC에서 
+	 
+	    Oracle JDK 8.x 다운로드
+	 
+	    pspc jdk-8u221-linux-x64.tar.gz root@192.168.56.121:/root/ 실행
+	 
+	 리눅스 가상머신에서 (root 계정으로 실행)
+	 
+	    cd ~
+		
+		gunzip jdk-8u221-linux-x64.tar.gz
+		
+		tar xvf jdk-8u221-linux-x64.tar
+		
+		rm -rf *.tar
+		
+		mkdir /usr/java
+		
+		mv jdk1.8.0_221 /usr/java/
+		
+		cd /usr/java
+		
+		ln -s jdk1.8.0_221 active-java
+		
+		vi /etc/profile 
+		
+		( 수정 내용은 파일 참고 )
+
+
+   - host 설정 변경 
+
+     /etc/hosts 파일 수정 (파일 참고)
+
+
+   - hostname 변경
+
+     hostnamectl set-hostname spark-machine
+
+
+   - 방화벽 비활성화
+
+     systemctl stop firewalld
+
+     systemctl disable firewalld
+
+
+   - 사용자 계정 생성 ( sparkdev / password )
+
+     useradd sparkdev
+
+     password sparkdev
+
+     패스워드 입력 (2회)
+
+
+   - 사용자 계정 sudoer 등록
+
+     visudo
+
+     파일에서 다음 내용 수정
+
+     root ALL=(ALL) ALL
+     sparkdev ALL=(ALL) ALL
+
+
+   - limits 설정 변경 (etc/security/limits.conf)
+
+     파일 참고
+	 
+
+   - selinux 설정 변경
+
+     vi /etc/selinux/config
+
+     SELINUX=disabled 로 수정    
+
+--------------------------------------------------------
+
+2. 스파크 설치 (sparkdev 계정으로 실행)
+
+   - 다운로드 및 설치
+
+     cd ~/apps
+
+     wget http://mirror.navercorp.com/apache/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
+
+     gunzip spark-2.4.3-bin-hadoop2.7.tgz
+
+     tar xvf spark-2.4.3-bin-hadoop2.7.tar
+
+     rm -f *.tar
+
+     ln -s spark-2.4.3-bin-hadoop2.7 spark
+
+
+   - 환경 변수 설정 ( /etc/profile )
+
+     export SPARK_HOME=/home/sparkdev/apps/spark
+	 
+	 PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+
+
+---------------------------------------------------------------------
+
+3. Miniconda (Anaconda) 설치 (sparkdev 계정으로 실행)
+
+   - 다운로드 및 설치
+
+     cd ~
+
+     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+     chmod 755 Miniconda3-latest-Linux-x86_64.sh
+
+     ./Miniconda3-latest-Linux-x86_64.sh
+
+     설치 도중 입력 항목은 메시지 내용에 따라 입력 없이 엔터 또는 yes 입력 후 엔터
+
+   - 로그아웃 후 재로그인
+
+     exit
+
+     sparkdev 계정으로 로그인
+
+   - 가상 환경 만들기
+
+     cd ~
+
+     conda info --envs (가상 환경 확인)
+
+     conda create --name pysparkdev python=3.6
+
+     conda info --envs (가상 환경 확인)
+
+   - 가상 환경에 notebook 실행 환경 설치
+
+     conda activate pysparkdev
+
+     pip install numpy
+     pip install pandas
+     pip install matplotlib
+     pip install jupyter
+     pip install jupyterlab
+
+4. 파이썬 가상 환경에 scala 커널 설치
+
+   - toree 설치
+
+     pip install toree
+     jupyter toree install --user --spark_home=/home/sparkdev/apps/spark --spark_opts='--master local --executor-memory 2g' --interpreters='Scala,SQL'
+
+
+   - 커널 설치 확인
+
+     jupyter kernelspec list
+
+
+   - jupyter public notebook server 설정
+
+	 jupyter notebook --generate-config
+
+     설정 파일 수정 (~/.jupyter/jupyter_notebook_config.py)
+
+        c.NotebookApp.ip = '0.0.0.0'
+        c.NotebookApp.open_browser = False
+        c.NotebookApp.port = 8180
+
+     jupyter notebook password
+
+     (패스워드 입력)
+     
+
+   - jupyter notebook workspace 만들기
+
+     mkdir work
+     mkdir work/spark-nb-workspace
+
+   - jupyter notebook 서버 실행
+
+     jupyter lab --notebook-dir=~/work/spark-nb-workspace
+
+
+   - 윈도우 컴퓨터 브라우저에서 확인
+
+     http://192.168.56.121:8180
+
+     패스워드 입력
+
+
+5. 파이썬 가상 환경에 pyspark 연결 설정
+
+   - 환경변수 설정 ( /etc/profile )
+   
+      export PYSPARK_DRIVER_PYTHON=jupyter
+      export PYSPARK_DRIVER_PYTHON_OPTS='lab --notebook-dir=~/work/spark-nb-workspace'
+	 
