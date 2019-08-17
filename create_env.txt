@@ -199,7 +199,7 @@
 
    - jupyter notebook 서버 실행
 
-     jupyter lab --notebook-dir=~/work/spark-nb-workspace
+     jupyter lab --notebook-dir=~/work/spark-nb-workspace -->스칼라전용 커널
 
 
    - 윈도우 컴퓨터 브라우저에서 확인
@@ -216,3 +216,6 @@
       export PYSPARK_DRIVER_PYTHON=jupyter
       export PYSPARK_DRIVER_PYTHON_OPTS='lab --notebook-dir=~/work/spark-nb-workspace'
 	 
+
+6. pyspark로 스파크 실행시
+   jupiter notebook은 kernel이 python
