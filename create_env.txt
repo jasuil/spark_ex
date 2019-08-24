@@ -222,3 +222,5 @@
 
 7. spark 설정
  .local/share/jupyter/kernels/apache_toree_sql/kernel.json
+
+  memory check -> free
