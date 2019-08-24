@@ -1,4 +1,4 @@
-1. 스파크 운영을 위한 기본 설치 및 설정 (root 계정으로 실행)
+﻿1. 스파크 운영을 위한 기본 설치 및 설정 (root 계정으로 실행)
 
    - 네트워크 설정 
 
@@ -219,3 +219,6 @@
 
 6. pyspark로 스파크 실행시
    jupiter notebook은 kernel이 python
+
+7. spark 설정
+ .local/share/jupyter/kernels/apache_toree_sql/kernel.json
