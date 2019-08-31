@@ -1,0 +1,5 @@
+학습데이터를 가져올 때
+grid search(외부에서 넣기)
+cross validation(모집단에서 부분을 추출하여 다른 부분에서 테스트)
+
+오차함수를 정할때 반복횟수(iterate number), 학습률(learning rate)이 중요
