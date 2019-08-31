@@ -1,5 +1,26 @@
+회귀-RDD, dataset and ML or MLlib
+
 학습데이터를 가져올 때
 grid search(외부에서 넣기)
 cross validation(모집단에서 부분을 추출하여 다른 부분에서 테스트)
 
 오차함수를 정할때 반복횟수(iterate number), 학습률(learning rate)이 중요
+
+회귀-선형회귀, 릿지, 라소, SGD, LBFGS
+
+--------------------------------------
+
+분류
+
+재현율, 예측율
+roc curve
+f-score
+
+----------
+
+문장 분석
+
+BOW
+단어 빈도수 기반 분석
+
+불용어(stop words) 제거
