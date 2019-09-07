@@ -1,0 +1,191 @@
+﻿1. 하둡 설치 (sparkdev 계정으로 실행)
+
+   - 참고 1 : https://hadoop.apache.org/docs/r3.1.2/hadoop-project-dist/hadoop-common/SingleCluster.html
+
+   - 참고 2 : https://hadoop.apache.org/docs/r3.1.2/hadoop-project-dist/hadoop-common/ClusterSetup.html
+
+
+   - 인증서 설치
+
+     ssh-keygen -t rsa ( 입력 후 연속으로 빈 엔터 입력, 신원을 확인할 수 있는 인증서)
+
+     ssh-copy-id -i sparkdev@spark-machine (운영할 여러대의 컴퓨터에 설치, 호스트 네임 또는 ip주소)
+     ssh-copy-id -i sparkdev@localhost (신뢰연결 구성)
+     ssh-copy-id -i sparkdev@127.0.0.1
+
+   - 다운로드 및 설치
+
+     cd ~
+
+     mkdir apps (있으면 생략)
+
+     cd apps
+
+     wget http://mirror.navercorp.com/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz
+
+     gunzip hadoop-3.1.2.tar.gz (gz 압축해제)
+
+     tar xvf hadoop-3.1.2.tar
+
+     rm -f *.tar
+
+     ln -s hadoop-3.1.2 hadoop
+
+   - 환경 변수 설정 ( /etc/profile ) 
+  
+     sudo vi /etc/profile
+
+     (수정 내용은 자료에 있는 config-file/profile 파일 참고) HADOOP_HOME, PATH
+
+   - Hadoop 설정
+
+     ~/apps/hadoop/etc/hadoop/ 디렉터리의 hadoop-env.sh, core-site.xml, hdfs-site.xml, mapred-site.xml, yarn-site.xml 파일 수정 
+
+     (수정 내용은 파일 참고)
+
+   - 디렉터리 생성
+
+     /home/sparkdev/data/hadoop/dfs/namenode
+     /home/sparkdev/data/hadoop/dfs/datanode
+     /home/sparkdev/data/hadoop/dfs/namesecondary
+     /home/sparkdev/data/hadoop/pids/
+
+     cd ~
+
+     mkdir data
+
+     cd data
+
+     mkdir hadoop
+
+     cd hadoop
+
+     mkdir pids
+
+     mkdir dfs
+
+     cd dfs
+
+     mkdir namenode
+
+     mkdir datanode
+
+     mkdir namesecondary
+
+
+   - namenode 포맷
+
+     hdfs namenode -format
+
+   
+   - 하둡 파일 시스템 시작
+
+     start-dfs.sh
+
+     jps (확인 -> namenode, secondarynamenode, datanode)
+
+ 
+   - 하둡 파일 시스템에 디렉터리 만들기
+
+     hdfs dfs -mkdir /user
+
+     hdfs dfs -mkdir /user/sparkdev
+
+     hdfs dfs -ls  ( 확인 - 오류 없이 표시 내용이 없으면 성공 )
+
+
+   - yarn 시스템 시작
+
+     start-yarn.sh
+
+     jps (확인 -> nodemanager, resourcemanager)
+
+   
+   - yarn 테스트
+
+     hdfs dfs -mkdir output
+     hdfs dfs -mkdir data-files
+     hdfs dfs -put $HADOOP_HOME/etc/hadoop/hadoop-env.sh data-files/
+     
+     yarn jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.1.2.jar wordcount data-files/hadoop-env.sh output/wordcount
+
+   - 결과 확인    
+
+     화면에 표시되는 내용 확인
+
+     hdfs dfs -ls output/wordcount/
+     
+     hdfs dfs -cat output/wordcount/part-r-00000
+
+
+4. 스파크 설치 및 설정 (sparkdev 계정으로 실행)
+
+   - 다운로드 및 설치 (생략)
+
+   - 스파크 설정
+
+     vi $SPARK_HOME/conf/spark-env.sh
+
+     (수정 내용은 파일 참고)
+
+-----------------------------------------------
+-- use spark standalone cluster manager
+
+
+   - 스파크 실행
+
+     start-master.sh
+
+     start-slaves.sh
+
+     jps (확인 -> master, worker)
+
+   - 윈도우 컴퓨터의 브라우저에서 확인
+
+     http://192.168.56.121:8080
+
+
+5. python toree 설정 변경
+
+   cd ~
+
+   vi .local/share/jupyter/kernels/apache_toree_scala/kernel.json
+
+   "__TOREE_SPARK_OPTS__": "--master local[*] ..."을
+   "__TOREE_SPARK_OPTS__": "--master spark://spark-machine:7077 ..."로 변경
+
+
+6. 작업환경 실행
+
+   pyspark ( or jupyter lab --notebook-dir=path-for-workspace )
+
+   윈도우 컴퓨터에서 http://192.168.56.121:8180 접속
+
+   명령 실행
+
+   윈도우 컴퓨터에서 http://192.168.56.121:8080 접속 --> application 확인
+
+------------------------------------
+-- use yarn cluster manager
+
+7. python toree 설정 변경
+
+   cd ~
+
+   vi .local/share/jupyter/kernels/apache_toree_scala/kernel.json
+
+   "__TOREE_SPARK_OPTS__": "--master spark://spark-machine:7077 ..."을
+   "__TOREE_SPARK_OPTS__": "--master yarn ..."로 변경
+
+
+8. 작업환경 실행
+
+   pyspark ( or jupyter lab --notebook-dir=path-for-workspace )
+
+   윈도우 컴퓨터에서 http://192.168.56.121:8180 접속
+
+   명령 실행
+
+   윈도우 컴퓨터에서 http://192.168.56.121:8080 접속 --> application 확인
+
+      

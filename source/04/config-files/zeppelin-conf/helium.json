@@ -1,0 +1,9 @@
+{
+  "enabled": {
+    "ultimate-heatmap-chart": "ultimate-heatmap-chart@0.0.2"
+  },
+  "packageConfig": {},
+  "bundleDisplayOrder": [
+    "ultimate-heatmap-chart"
+  ]
+}

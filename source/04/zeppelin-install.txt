@@ -1,0 +1,35 @@
+1. zeppelin 설치
+
+   - 다운로드
+
+     http://apache.mirror.cdnetworks.com/zeppelin/zeppelin-0.8.1/zeppelin-0.8.1-bin-all.tgz
+
+   - 설치
+
+     cd ~
+
+     wget http://apache.mirror.cdnetworks.com/zeppelin/zeppelin-0.8.1/zeppelin-0.8.1-bin-all.tgz
+
+     gunzip zeppelin-0..8.1-bin-all.tgz
+
+     tar xvf zeppelin-0..8.1-bin-all.tgz
+
+     rm *.tar
+
+     ln -s zeppelin-0..8.1-bin-all zeppelin
+
+   - 환경변수 설정
+
+     sudo vi /etc/profile
+
+     ZEPPELIN_HOME, PATH -> (파일 참고)
+
+2. 실행
+
+   - 서버 실행
+
+     zeppelin-daemon.sh start
+
+   - 윈도우 컴퓨터에서 브라우저
+
+   
