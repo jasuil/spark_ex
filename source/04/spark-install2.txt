@@ -38,6 +38,8 @@
      (수정 내용은 자료에 있는 config-file/profile 파일 참고) HADOOP_HOME, PATH
 
    - Hadoop 설정
+     
+     (workers 파일은 작업노드를 알려주는 것임)
 
      ~/apps/hadoop/etc/hadoop/ 디렉터리의 hadoop-env.sh, core-site.xml, hdfs-site.xml, mapred-site.xml, yarn-site.xml 파일 수정 
 
@@ -72,6 +74,7 @@
 
      mkdir namesecondary
 
+     source /etc/profile (적용)
 
    - namenode 포맷
 
@@ -86,13 +89,15 @@
 
  
    - 하둡 파일 시스템에 디렉터리 만들기
+     hdfs dfs -ls / ( 확인 - 오류 없이 표시 내용이 없으면 성공 )
 
      hdfs dfs -mkdir /user
 
      hdfs dfs -mkdir /user/sparkdev
+     hdfs dfs -mkdir /user/sparkdev/data-files
+     hdfs dfs -mkdir /user/sparkdev/output
 
-     hdfs dfs -ls  ( 확인 - 오류 없이 표시 내용이 없으면 성공 )
-
+     (스탠드얼론 모드는 start-master.sh, start-slaves.sh로 클러스터 환경구성)
 
    - yarn 시스템 시작
 
