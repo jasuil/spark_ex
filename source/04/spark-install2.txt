@@ -1,4 +1,8 @@
-﻿1. 하둡 설치 (sparkdev 계정으로 실행)
+﻿(가상 분산환경 구축)
+
+클러스터- 스탠드얼론 모드는 테스트용, yarn, mesos, kubernates를 실제 사용
+
+1. 하둡 설치 (sparkdev 계정으로 실행)
 
    - 참고 1 : https://hadoop.apache.org/docs/r3.1.2/hadoop-project-dist/hadoop-common/SingleCluster.html
 
@@ -99,7 +103,8 @@
 
      (스탠드얼론 모드는 start-master.sh, start-slaves.sh로 클러스터 환경구성)
 
-   - yarn 시스템 시작
+
+   - yarn 시스템 시작(하둡이 설치될 때 기본으로 설치)
 
      start-yarn.sh
 
