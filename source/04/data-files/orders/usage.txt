@@ -1,0 +1,8 @@
+﻿mkdir orders
+chmod +x splitAndSend.sh (실행가능한 파일로 만들기)
+splitAndSend.sh ./orders local (로컬)
+
+--> orders폴더에 분할된 50개의 파일이 생성됨
+
+
+splitAndSend.sh data-files/orders  (하둡서버)

@@ -10,14 +10,21 @@
 
      wget http://apache.mirror.cdnetworks.com/zeppelin/zeppelin-0.8.1/zeppelin-0.8.1-bin-all.tgz
 
-     gunzip zeppelin-0..8.1-bin-all.tgz
+     gunzip zeppelin-0.8.1-bin-all.tgz
 
-     tar xvf zeppelin-0..8.1-bin-all.tgz
-
+     tar xvf zeppelin-0..8.1-bin-all.tar
+	 
      rm *.tar
 
-     ln -s zeppelin-0..8.1-bin-all zeppelin
+     ln -s zeppelin-0.8.1-bin-all zeppelin
+	 
+	 cd zeppelin
+	 
+	 cp zeppelin-site.xml.template zeppelin-site.xml
 
+	 sudo vi zeppelin-site.xml
+	 zeppelin.server.port를 8083으로 수정
+	
    - 환경변수 설정
 
      sudo vi /etc/profile
