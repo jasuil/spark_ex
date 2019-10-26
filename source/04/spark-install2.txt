@@ -87,7 +87,10 @@
    
    - 하둡 파일 시스템 시작
 
-     start-dfs.sh
+     start-dfs.sh(안되는 경우는 다음과 같이 일일아 다 실행한다.)
+     hdfs --daemon start namenode
+     hdfs --daemon start datanode
+     hdfs --daemon start secondarynamenode
 
      jps (확인 -> namenode, secondarynamenode, datanode)
 
