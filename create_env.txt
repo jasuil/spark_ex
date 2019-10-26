@@ -71,6 +71,7 @@
      useradd sparkdev
 
      password sparkdev
+     (or password)
 
      패스워드 입력 (2회)
 
